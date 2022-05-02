@@ -12,7 +12,7 @@ Output:
     ->
 
 -> For 3-layered NN:
-    -> 
+    -> https://www.researchgate.net/figure/A-simple-3-layer-neural-network_fig1_278707410 
 
 -> For Deep Neural Network:
     -> https://journalofbigdata.springeropen.com/articles/10.1186/s40537-020-00333-6
