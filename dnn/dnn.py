@@ -12,7 +12,7 @@ def df_to_ds(dataframe, input_features, label):
         input_data.append(dataframe[feature].to_numpy())
     input_data = np.array(input_data).T
     input_data = np.reshape(input_data, (input_data.shape[0], input_data.shape[1], 1))
-    label = dataframe[label].to_numpy()
+    label = dataframe[label[0]].to_numpy()
     # label = np.reshape(label, (label.shape[0], 1))
     return input_data, label
 
@@ -41,19 +41,18 @@ if __name__ == "__main__":
         val_df_list.append(df.iloc[int(df.shape[0]*train_ratio):,:])
 
     input_features = ['Open', 'High', 'Low', 'Close', 'Volume']
-    label = 'Target'
+    label = ['Target']
+
+    train_df_list[0].dropna(subset=input_features + label, axis=0, inplace=True)
 
     input_train, label_train = df_to_ds(train_df_list[0], input_features, label)
     input_val, label_val = df_to_ds(val_df_list[0], input_features, label)
-
-    print(input_train)
-    print(label_train)
 
     #Initializing the RNN
     model = Sequential()
     #Making a robust stacked LSTM layer
     #Adding the first LSTM layer and some Dropout Regularization
-    model.add(LSTM(units = 1, return_sequences = True, input_shape = (input_train.shape[1], 1) ) )
+    model.add(LSTM(units = 50, return_sequences = True, input_shape = (input_train.shape[1], 1) ) )
     model.add(Dropout(0.2))
     #Adding the second LSTM layer and some Dropout Regularization
     model.add(LSTM(units = 50, return_sequences = True))
@@ -69,11 +68,11 @@ if __name__ == "__main__":
     model.add(Dense(units = 1))
 
     #Compiling the RNN
-    model.compile(optimizer = 'adam', loss = 'mean_absolute_error', metrics=['accuracy'])
+    model.compile(optimizer = 'adam', loss = 'mean_squared_error', metrics=['accuracy'])
 
     model.summary()
     plot_model(model, show_shapes=True, rankdir="LR")
 
     #Fitting the RNN to the Training set
-    model.fit(input_train, label_train, epochs = 100)  
+    model.fit(input_train, label_train, epochs = 3, valdiation_data = (input_val, label_val))  
     model.save('stock_prediction_rnn.h5')
