@@ -5,11 +5,7 @@ Input Factors:
     -> WholeDayOpen, WholeDayHigh, WholeDayLow, WholeDayClose, NightSessionOpen, NightSessionHigh, NightSessionLow, NightSessionClose, DaySessionClose, DaySessionHigh, DaySessionLow, DaySessionOpen, TradingVolume, OpenInterest, TradingValue, StrikePrice, WholeDayVolume
 
 Output:
--> Expected Dividend
-
-
--> For Shallow Model:
-    ->
+-> Target
 
 -> For 3-layered NN:
     -> https://www.researchgate.net/figure/A-simple-3-layer-neural-network_fig1_278707410 
